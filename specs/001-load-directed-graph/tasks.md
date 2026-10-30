@@ -25,8 +25,8 @@ description: "Task list for Feature 1: Cargar y Mostrar un Grafo Dirigido"
 
 **Purpose**: Inicialización del proyecto Python con biblioteca estándar y registro del comando `graph` en `pyproject.toml`.
 
-- [ ] T001 Crear la configuración de paquete en `pyproject.toml` con Python >=3.11, sin dependencias externas de ejecución, registrando el script `graph = "graph.cli:main"` en `[project.scripts]` y configurando `pytest` para `tests/`
-- [ ] T002 Crear la estructura inicial del paquete en `src/graph/__init__.py` y el directorio de pruebas en `tests/`
+- [X] T001 Crear la configuración de paquete en `pyproject.toml` con Python >=3.11, sin dependencias externas de ejecución, registrando el script `graph = "graph.cli:main"` en `[project.scripts]` y configurando `pytest` para `tests/`
+- [X] T002 Crear la estructura inicial del paquete en `src/graph/__init__.py` y el directorio de pruebas en `tests/`
 
 ---
 
@@ -38,12 +38,12 @@ description: "Task list for Feature 1: Cargar y Mostrar un Grafo Dirigido"
 
 ### Tests for Foundational Model (Write FIRST — ensure they FAIL before implementation)
 
-- [ ] T003 [P] Escribir pruebas unitarias para `DirectedGraph` en `tests/test_model.py` verificando invariantes de `data-model.md`: registro de vértices aislados (`add_vertex`), inserción de aristas (`add_edge`), deduplicación automática de aristas repetidas en `set[str]`, soporte de autociclos (`u in adjacency[u]`), soporte de ciclos multi-vértice y conteos `vertex_count()` / `edge_count()` (`FR-007`, `FR-008`, `FR-009`)
+- [X] T003 [P] Escribir pruebas unitarias para `DirectedGraph` en `tests/test_model.py` verificando invariantes de `data-model.md`: registro de vértices aislados (`add_vertex`), inserción de aristas (`add_edge`), deduplicación automática de aristas repetidas en `set[str]`, soporte de autociclos (`u in adjacency[u]`), soporte de ciclos multi-vértice y conteos `vertex_count()` / `edge_count()` (`FR-007`, `FR-008`, `FR-009`)
 
 ### Implementation for Foundational Model
 
-- [ ] T004 Implementar la clase `DirectedGraph` en `src/graph/model.py` usando `vertices: set[str]` y `adjacency: dict[str, set[str]]` con los métodos `add_vertex(name: str)`, `add_edge(source: str, target: str)`, `vertex_count() -> int` y `edge_count() -> int`, manteniendo el invariante `set(adjacency.keys()) == vertices` (`FR-007`, `FR-008`, `FR-009`)
-- [ ] T005 [P] Definir la excepción `GraphLoadError` en `src/graph/loader.py` para encapsular errores de archivo o de fila CSV (con atributos opcionales de número de línea base 1 y contenido literal de la fila) (`FR-002`, `FR-012`)
+- [X] T004 Implementar la clase `DirectedGraph` en `src/graph/model.py` usando `vertices: set[str]` y `adjacency: dict[str, set[str]]` con los métodos `add_vertex(name: str)`, `add_edge(source: str, target: str)`, `vertex_count() -> int` y `edge_count() -> int`, manteniendo el invariante `set(adjacency.keys()) == vertices` (`FR-007`, `FR-008`, `FR-009`)
+- [X] T005 [P] Definir la excepción `GraphLoadError` en `src/graph/loader.py` para encapsular errores de archivo o de fila CSV (con atributos opcionales de número de línea base 1 y contenido literal de la fila) (`FR-002`, `FR-012`)
 
 **Checkpoint**: Modelo `DirectedGraph` probado y listo — comienza la implementación de historias de usuario.
 
@@ -57,16 +57,16 @@ description: "Task list for Feature 1: Cargar y Mostrar un Grafo Dirigido"
 
 ### Tests for User Story 1 (Write FIRST — ensure they FAIL before implementation) ⚠️
 
-- [ ] T006 [P] [US1] Escribir pruebas unitarias del formateador de salida en `tests/test_model.py` verificando que el orden alfabético (`A` a `Z` para vértices, `source` y luego `target` para aristas) se aplique al mostrar con el formato exacto `Vertices: <V>, Edges: <E>`, `Vertices:` y `Edges:` (`source -> target`) (`FR-011`)
-- [ ] T007 [P] [US1] Escribir prueba de aceptación para **US1 - Escenario 1 (`US1-AS1`)** con `data/small-dag.csv` en `tests/test_cli.py`, verificando que `watch,` se registre como vértice aislado y que `graph show data/small-dag.csv` produzca código `0`, `Vertices: 9, Edges: 9`, los 9 vértices en orden alfabético (`belt` a `watch`) y las 9 aristas dirigidas (`FR-001`, `FR-004`, `FR-007`, `FR-011`, `SC-001`)
-- [ ] T008 [P] [US1] Escribir prueba de aceptación para **US1 - Escenario 2 (`US1-AS2`)** con `data/cs-curriculum.csv` en `tests/test_cli.py`, verificando preservación de espacios internos (`"Programming Fundamentals"`), deduplicación silenciosa de `Data Structures,Algorithms` (sin avisos en `stdout`/`stderr`), código `0` y resumen `Vertices: 19, Edges: 23` (`FR-001`, `FR-005`, `FR-008`, `FR-011`, `SC-002`)
-- [ ] T009 [P] [US1] Escribir prueba de aceptación para **US1 - Escenario 3 (`US1-AS3`)** con `data/build-with-cycle.csv` en `tests/test_cli.py`, verificando aceptación silenciosa del ciclo `auth -> session -> user-profile -> auth` y del autociclo `metrics -> metrics`, código `0`, los 11 vértices en orden alfabético (`api` a `web`) y resumen `Vertices: 11, Edges: 13` (`FR-001`, `FR-009`, `FR-011`, `SC-003`)
+- [X] T006 [P] [US1] Escribir pruebas unitarias del formateador de salida en `tests/test_model.py` verificando que el orden alfabético (`A` a `Z` para vértices, `source` y luego `target` para aristas) se aplique al mostrar con el formato exacto `Vertices: <V>, Edges: <E>`, `Vertices:` y `Edges:` (`source -> target`) (`FR-011`)
+- [X] T007 [P] [US1] Escribir prueba de aceptación para **US1 - Escenario 1 (`US1-AS1`)** con `data/small-dag.csv` en `tests/test_cli.py`, verificando que `watch,` se registre como vértice aislado y que `graph show data/small-dag.csv` produzca código `0`, `Vertices: 9, Edges: 9`, los 9 vértices en orden alfabético (`belt` a `watch`) y las 9 aristas dirigidas (`FR-001`, `FR-004`, `FR-007`, `FR-011`, `SC-001`)
+- [X] T008 [P] [US1] Escribir prueba de aceptación para **US1 - Escenario 2 (`US1-AS2`)** con `data/cs-curriculum.csv` en `tests/test_cli.py`, verificando preservación de espacios internos (`"Programming Fundamentals"`), deduplicación silenciosa de `Data Structures,Algorithms` (sin avisos en `stdout`/`stderr`), código `0` y resumen `Vertices: 19, Edges: 23` (`FR-001`, `FR-005`, `FR-008`, `FR-011`, `SC-002`)
+- [X] T009 [P] [US1] Escribir prueba de aceptación para **US1 - Escenario 3 (`US1-AS3`)** con `data/build-with-cycle.csv` en `tests/test_cli.py`, verificando aceptación silenciosa del ciclo `auth -> session -> user-profile -> auth` y del autociclo `metrics -> metrics`, código `0`, los 11 vértices en orden alfabético (`api` a `web`) y resumen `Vertices: 11, Edges: 13` (`FR-001`, `FR-009`, `FR-011`, `SC-003`)
 
 ### Implementation for User Story 1
 
-- [ ] T010 [P] [US1] Implementar `format_graph(graph: DirectedGraph) -> str` en `src/graph/formatter.py` aplicando ordenamiento alfabético (`sorted`) únicamente al generar las secciones `Vertices: <V>, Edges: <E>`, `Vertices:` y `Edges:` (`source -> target`) (`FR-011`, `SC-005`)
-- [ ] T011 [US1] Implementar `load_graph_from_csv(path: str | Path) -> DirectedGraph` en `src/graph/loader.py` usando el módulo estándar `csv` para leer el encabezado `source,target`, permitir el salto de línea final (EOF), registrar vértices aislados cuando `target` es vacío (`watch,`) y registrar aristas dirigidas preservando espacios internos y deduplicando/aceptando autociclos en silencio (`FR-003`, `FR-004`, `FR-007`, `FR-008`, `FR-009`)
-- [ ] T012 [US1] Implementar el punto de entrada `main(argv: list[str] | None = None) -> int` con `argparse` para el subcomando `show <archivo>` en `src/graph/cli.py`, imprimiendo el grafo formateado en `stdout` y terminando con código de salida `0` en éxito (`FR-001`, `FR-011`)
+- [X] T010 [P] [US1] Implementar `format_graph(graph: DirectedGraph) -> str` en `src/graph/formatter.py` aplicando ordenamiento alfabético (`sorted`) únicamente al generar las secciones `Vertices: <V>, Edges: <E>`, `Vertices:` y `Edges:` (`source -> target`) (`FR-011`, `SC-005`)
+- [X] T011 [US1] Implementar `load_graph_from_csv(path: str | Path) -> DirectedGraph` en `src/graph/loader.py` usando el módulo estándar `csv` para leer el encabezado `source,target`, permitir el salto de línea final (EOF), registrar vértices aislados cuando `target` es vacío (`watch,`) y registrar aristas dirigidas preservando espacios internos y deduplicando/aceptando autociclos en silencio (`FR-003`, `FR-004`, `FR-007`, `FR-008`, `FR-009`)
+- [X] T012 [US1] Implementar el punto de entrada `main(argv: list[str] | None = None) -> int` con `argparse` para el subcomando `show <archivo>` en `src/graph/cli.py`, imprimiendo el grafo formateado en `stdout` y terminando con código de salida `0` en éxito (`FR-001`, `FR-011`)
 
 **Checkpoint**: User Story 1 es completamente funcional y verificable de forma independiente con los tres archivos reales de `data/`.
 
@@ -80,12 +80,12 @@ description: "Task list for Feature 1: Cargar y Mostrar un Grafo Dirigido"
 
 ### Tests for User Story 2 (Write FIRST — ensure they FAIL before implementation) ⚠️
 
-- [ ] T013 [P] [US2] Escribir prueba de aceptación para **US2 - Escenario 1 (`US2-AS1`)** en `tests/test_loader.py` y `tests/test_cli.py` con entradas que tengan espacios iniciales y finales (`" utils , logging "` y `"utils,config"`), verificando que se recorten (`trim`) produciendo 3 vértices en orden alfabético (`config`, `logging`, `utils`) y 2 aristas (`utils -> config`, `utils -> logging`), además de tratar un `target` de solo espacios (`"watch,   "`) como `target` vacío (`FR-005`, `FR-007`)
-- [ ] T014 [P] [US2] Escribir prueba de aceptación para **US2 - Escenario 2 (`US2-AS2`)** en `tests/test_loader.py` y `tests/test_cli.py` con nombres que solo difieren en mayúsculas/minúsculas (`"Auth,Session"` y `"auth,session"`), verificando comparación `case-sensitive` con 4 vértices (`Auth`, `Session`, `auth`, `session`) y 2 aristas (`Auth -> Session`, `auth -> session`) (`FR-005`, `FR-011`)
+- [X] T013 [P] [US2] Escribir prueba de aceptación para **US2 - Escenario 1 (`US2-AS1`)** en `tests/test_loader.py` y `tests/test_cli.py` con entradas que tengan espacios iniciales y finales (`" utils , logging "` y `"utils,config"`), verificando que se recorten (`trim`) produciendo 3 vértices en orden alfabético (`config`, `logging`, `utils`) y 2 aristas (`utils -> config`, `utils -> logging`), además de tratar un `target` de solo espacios (`"watch,   "`) como `target` vacío (`FR-005`, `FR-007`)
+- [X] T014 [P] [US2] Escribir prueba de aceptación para **US2 - Escenario 2 (`US2-AS2`)** en `tests/test_loader.py` y `tests/test_cli.py` con nombres que solo difieren en mayúsculas/minúsculas (`"Auth,Session"` y `"auth,session"`), verificando comparación `case-sensitive` con 4 vértices (`Auth`, `Session`, `auth`, `session`) y 2 aristas (`Auth -> Session`, `auth -> session`) (`FR-005`, `FR-011`)
 
 ### Implementation for User Story 2
 
-- [ ] T015 [US2] Asegurar en `src/graph/loader.py` la normalización mediante `.strip()` sobre los campos `source` y `target` de cada fila de datos (preservando espacios internos y sensibilidad a mayúsculas/minúsculas) antes de evaluar si `source` o `target` están vacíos (`FR-005`, `FR-006`, `FR-007`)
+- [X] T015 [US2] Asegurar en `src/graph/loader.py` la normalización mediante `.strip()` sobre los campos `source` y `target` de cada fila de datos (preservando espacios internos y sensibilidad a mayúsculas/minúsculas) antes de evaluar si `source` o `target` están vacíos (`FR-005`, `FR-006`, `FR-007`)
 
 **Checkpoint**: User Stories 1 y 2 funcionan y pasan todas sus pruebas de aceptación.
 
@@ -99,16 +99,16 @@ description: "Task list for Feature 1: Cargar y Mostrar un Grafo Dirigido"
 
 ### Tests for User Story 3 (Write FIRST — ensure they FAIL before implementation) ⚠️
 
-- [ ] T016 [P] [US3] Escribir prueba de aceptación para **US3 - Escenario 1 (`US3-AS1`)** (archivo inexistente) en `tests/test_loader.py` y `tests/test_cli.py`, verificando código de salida `1`, mensaje de error en `stderr` que incluya la ruta y que el archivo no existe, y `stdout` vacío (`FR-002`, `FR-012`, `SC-004`)
-- [ ] T017 [P] [US3] Escribir prueba de aceptación para **US3 - Escenario 2 (`US3-AS2`)** (archivo completamente vacío de 0 bytes) en `tests/test_loader.py` y `tests/test_cli.py`, verificando código de salida `1`, mensaje de error en `stderr` con la ruta y que el archivo está vacío, y `stdout` vacío (`FR-002`, `FR-012`, `SC-004`)
-- [ ] T018 [P] [US3] Escribir prueba de aceptación para **US3 - Escenario 3 (`US3-AS3`)** (archivo con únicamente el encabezado `source,target`) en `tests/test_loader.py` y `tests/test_cli.py`, verificando código de salida `0` y salida exacta `Vertices: 0, Edges: 0` seguida de `Vertices:` y `Edges:` vacíos (`FR-010`, `FR-011`, `SC-005`)
-- [ ] T019 [P] [US3] Escribir prueba de aceptación para **US3 - Escenario 4 (`US3-AS4`)** (encabezado ausente donde la primera fila son datos, o encabezado distinto como `origen,destino` o `from,to`) en `tests/test_loader.py` y `tests/test_cli.py`, verificando código de salida `1` y mensaje de error con la causa, número de línea `1` y contenido literal de la primera fila (`FR-003`, `FR-012`, `SC-004`)
-- [ ] T020 [P] [US3] Escribir pruebas de aceptación para **US3 - Escenario 5 (`US3-AS5`)** en `tests/test_loader.py` y `tests/test_cli.py` cubriendo: (a) fila con menos de 2 columnas sin coma (`watch`), (b) línea en blanco intermedia, (c) fila con más de 2 columnas (`a,b,c`), y (d) fila con `source` vacío (`,shoes`, `,` con ambos vacíos, y `"   ,shoes"`), verificando código de salida `1`, mensaje de error con causa, número de línea (base 1) y contenido literal de la fila problemática, y ausencia de grafo parcial en `stdout` (`FR-004`, `FR-006`, `FR-012`, `SC-004`)
+- [X] T016 [P] [US3] Escribir prueba de aceptación para **US3 - Escenario 1 (`US3-AS1`)** (archivo inexistente) en `tests/test_loader.py` y `tests/test_cli.py`, verificando código de salida `1`, mensaje de error en `stderr` que incluya la ruta y que el archivo no existe, y `stdout` vacío (`FR-002`, `FR-012`, `SC-004`)
+- [X] T017 [P] [US3] Escribir prueba de aceptación para **US3 - Escenario 2 (`US3-AS2`)** (archivo completamente vacío de 0 bytes) en `tests/test_loader.py` y `tests/test_cli.py`, verificando código de salida `1`, mensaje de error en `stderr` con la ruta y que el archivo está vacío, y `stdout` vacío (`FR-002`, `FR-012`, `SC-004`)
+- [X] T018 [P] [US3] Escribir prueba de aceptación para **US3 - Escenario 3 (`US3-AS3`)** (archivo con únicamente el encabezado `source,target`) en `tests/test_loader.py` y `tests/test_cli.py`, verificando código de salida `0` y salida exacta `Vertices: 0, Edges: 0` seguida de `Vertices:` y `Edges:` vacíos (`FR-010`, `FR-011`, `SC-005`)
+- [X] T019 [P] [US3] Escribir prueba de aceptación para **US3 - Escenario 4 (`US3-AS4`)** (encabezado ausente donde la primera fila son datos, o encabezado distinto como `origen,destino` o `from,to`) en `tests/test_loader.py` y `tests/test_cli.py`, verificando código de salida `1` y mensaje de error con la causa, número de línea `1` y contenido literal de la primera fila (`FR-003`, `FR-012`, `SC-004`)
+- [X] T020 [P] [US3] Escribir pruebas de aceptación para **US3 - Escenario 5 (`US3-AS5`)** en `tests/test_loader.py` y `tests/test_cli.py` cubriendo: (a) fila con menos de 2 columnas sin coma (`watch`), (b) línea en blanco intermedia, (c) fila con más de 2 columnas (`a,b,c`), y (d) fila con `source` vacío (`,shoes`, `,` con ambos vacíos, y `"   ,shoes"`), verificando código de salida `1`, mensaje de error con causa, número de línea (base 1) y contenido literal de la fila problemática, y ausencia de grafo parcial en `stdout` (`FR-004`, `FR-006`, `FR-012`, `SC-004`)
 
 ### Implementation for User Story 3
 
-- [ ] T021 [US3] Implementar en `src/graph/loader.py` las validaciones estrictas `V-01` a `V-08` de `data-model.md`: existencia de archivo, archivo vacío (0 bytes), validación exacta del encabezado `source,target` en línea 1, aceptación de archivo con solo encabezado (`0` vértices, `0` aristas), rechazo de líneas en blanco intermedias (permitiendo salto de línea final EOF), rechazo de filas con `len(row) != 2` y rechazo de filas con `source` vacío (incluyendo `,`), lanzando `GraphLoadError` con causa, número de línea (base 1) y contenido literal de la fila (`FR-002`, `FR-003`, `FR-004`, `FR-006`, `FR-010`, `FR-012`)
-- [ ] T022 [US3] Actualizar `src/graph/cli.py` para capturar `GraphLoadError`, imprimir el mensaje diagnóstico en `stderr` sin escribir nada en `stdout`, y terminar el proceso con código de salida `1` (`FR-002`, `FR-012`, `SC-004`)
+- [X] T021 [US3] Implementar en `src/graph/loader.py` las validaciones estrictas `V-01` a `V-08` de `data-model.md`: existencia de archivo, archivo vacío (0 bytes), validación exacta del encabezado `source,target` en línea 1, aceptación de archivo con solo encabezado (`0` vértices, `0` aristas), rechazo de líneas en blanco intermedias (permitiendo salto de línea final EOF), rechazo de filas con `len(row) != 2` y rechazo de filas con `source` vacío (incluyendo `,`), lanzando `GraphLoadError` con causa, número de línea (base 1) y contenido literal de la fila (`FR-002`, `FR-003`, `FR-004`, `FR-006`, `FR-010`, `FR-012`)
+- [X] T022 [US3] Actualizar `src/graph/cli.py` para capturar `GraphLoadError`, imprimir el mensaje diagnóstico en `stderr` sin escribir nada en `stdout`, y terminar el proceso con código de salida `1` (`FR-002`, `FR-012`, `SC-004`)
 
 **Checkpoint**: Todas las historias de usuario (US1, US2, US3) y todos los casos de error están implementados y verificados.
 
@@ -118,7 +118,7 @@ description: "Task list for Feature 1: Cargar y Mostrar un Grafo Dirigido"
 
 **Purpose**: Verificación integral de extremo a extremo con `quickstart.md` y cumplimiento estricto de los criterios de éxito `SC-001` a `SC-005`.
 
-- [ ] T023 Ejecutar la suite completa de pruebas (`uv run pytest`) y los comandos de validación de `specs/001-load-directed-graph/quickstart.md` (`uv run graph show data/small-dag.csv`, `uv run graph show data/cs-curriculum.csv`, `uv run graph show data/build-with-cycle.csv`), confirmando el cumplimiento de `SC-001` a `SC-005` y la ausencia de código no requerido por la especificación
+- [X] T023 Ejecutar la suite completa de pruebas (`uv run pytest`) y los comandos de validación de `specs/001-load-directed-graph/quickstart.md` (`uv run graph show data/small-dag.csv`, `uv run graph show data/cs-curriculum.csv`, `uv run graph show data/build-with-cycle.csv`), confirmando el cumplimiento de `SC-001` a `SC-005` y la ausencia de código no requerido por la especificación
 
 ---
 
