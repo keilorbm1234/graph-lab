@@ -1,0 +1,14 @@
+source,target
+utils,logging
+utils,config
+logging,core
+config,core
+core,auth
+core,storage
+auth,session
+session,user-profile
+user-profile,auth
+storage,api
+auth,api
+api,web
+metrics,metrics
