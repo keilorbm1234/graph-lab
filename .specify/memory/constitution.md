@@ -1,50 +1,24 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# Graph Lab Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Simplicidad y YAGNI (NON-NEGOTIABLE)
+No se debe agregar código, opciones, formatos ni algoritmos que ningún requisito de la especificación activa pida explícitamente. Cada feature se limita estrictamente a su alcance aprobado.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Separación Modelo / CLI
+La representación del grafo en memoria (`src/graph/model.py`), la carga/validación CSV (`src/graph/loader.py`) y el formateo (`src/graph/formatter.py`) deben ser independientes de la interfaz de línea de comandos (`src/graph/cli.py`), permitiendo pruebas unitarias directas y reutilización en features posteriores.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Test-First (TDD)
+Toda funcionalidad y escenario de aceptación debe contar con pruebas automatizadas escritas antes del código de producción que verifican.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Biblioteca Estándar Únicamente en Ejecución
+El código de producción debe utilizar exclusivamente la biblioteca estándar de Python (`csv`, `argparse`, `sys`, `pathlib`, etc.), sin dependencias externas en tiempo de ejecución.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
-
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
-
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
-
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
-
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### V. Determinismo y Fallo Estricto
+Toda salida válida debe ser 100% determinista (aplicando orden alfabético al mostrar) con código de salida `0`. Cualquier dato de entrada inválido debe abortar la operación con código de salida `1` y un mensaje diagnóstico claro en `stderr` sin emitir resultados parciales.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+Esta Constitution rige todas las especificaciones, planes y listas de tareas del repositorio `graph-lab`. Cualquier conflicto con estos principios se considera crítico y debe resolverse ajustando el plan o el código antes de dar por completada una tarea.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2026-10-29 | **Last Amended**: 2026-10-29

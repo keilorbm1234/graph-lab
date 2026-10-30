@@ -40,7 +40,7 @@ Representa un grafo dirigido simple y no ponderado en memoria mediante lista de 
 |-------|------------------------------------|-----------|
 | **V-01: Existencia de archivo** | La ruta indicada no existe o no es un archivo accesible | Error de carga (código `1`), indicando la ruta y que el archivo no existe. |
 | **V-02: Archivo vacío** | El archivo tiene 0 bytes / 0 líneas | Error de carga (código `1`), indicando la ruta y que el archivo está vacío. |
-| **V-03: Encabezado exacto** | La línea 1 (sin el salto de línea final) debe constar de 2 columnas cuyos valores tras `trim` sean exactamente `source` y `target` (es decir, `source,target`) | Si no coincide o está ausente: Error en línea 1 (código `1`) con número de línea `1` y contenido de la fila. |
+| **V-03: Encabezado exacto** | La línea 1 (tras recortar el salto de línea y espacios extremos de línea) debe ser exactamente `source,target` | Si no coincide o está ausente: Error en línea 1 (código `1`) con número de línea `1` y contenido literal de la fila. |
 | **V-04: Archivo solo con encabezado** | El archivo contiene únicamente la línea 1 (`source,target`) y ninguna fila de datos posterior | Válido: retorna `DirectedGraph` vacío (`0` vértices, `0` aristas). |
 | **V-05: Línea en blanco intermedia** | Una línea posterior al encabezado está completamente vacía (`""`) | Error de validación (código `1`), indicando número de línea (base 1) y contenido vacío. |
 | **V-06: Cantidad de columnas** | Una fila de datos no tiene exactamente 2 campos separados por una coma (`len(row) != 2`) | Error de validación (código `1`), indicando número de línea (base 1) y el contenido literal de la fila. |
