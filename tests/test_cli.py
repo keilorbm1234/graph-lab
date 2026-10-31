@@ -199,6 +199,136 @@ class TestGraphCLI(unittest.TestCase):
                 if bad_row:
                     self.assertIn(bad_row, err)
 
+    def test_toposort_us1_as1_small_dag_csv(self) -> None:
+        """T006 (US1-AS1): graph toposort data/small-dag.csv -> 9 vertices in lexicographical topo order."""
+        code, out, err = self._run_cli("toposort", str(DATA_DIR / "small-dag.csv"))
+        self.assertEqual(code, 0)
+        self.assertEqual(err, "")
+        expected = "\n".join(
+            [
+                "Topological order (9):",
+                "shirt",
+                "socks",
+                "tie",
+                "undershorts",
+                "pants",
+                "belt",
+                "jacket",
+                "shoes",
+                "watch",
+            ]
+        ) + "\n"
+        self.assertEqual(out, expected)
+
+    def test_toposort_us1_as2_cs_curriculum_csv(self) -> None:
+        """T007 (US1-AS2): graph toposort data/cs-curriculum.csv -> 19 courses in lexicographical topo order."""
+        code, out, err = self._run_cli("toposort", str(DATA_DIR / "cs-curriculum.csv"))
+        self.assertEqual(code, 0)
+        self.assertEqual(err, "")
+        expected = "\n".join(
+            [
+                "Topological order (19):",
+                "Calculus I",
+                "Calculus II",
+                "Computer Networks",
+                "Discrete Mathematics",
+                "Linear Algebra",
+                "Probability and Statistics",
+                "Programming Fundamentals",
+                "Computer Architecture",
+                "Object-Oriented Programming",
+                "Data Structures",
+                "Algorithms",
+                "Databases",
+                "Machine Learning",
+                "Operating Systems",
+                "Distributed Systems",
+                "Software Engineering",
+                "Capstone Project",
+                "Theory of Computation",
+                "Compilers",
+            ]
+        ) + "\n"
+        self.assertEqual(out, expected)
+
+    def test_toposort_us1_as3_header_only_empty_graph(self) -> None:
+        """T008 (US1-AS3): graph toposort on header-only file -> Topological order (0): with exit code 0."""
+        csv_path = self._write_temp_csv("source,target\n")
+        code, out, err = self._run_cli("toposort", str(csv_path))
+        self.assertEqual(code, 0)
+        self.assertEqual(err, "")
+        self.assertEqual(out, "Topological order (0):\n")
+
+    def test_toposort_us2_as1_build_with_cycle_csv(self) -> None:
+        """T014 (US2-AS1): graph toposort data/build-with-cycle.csv -> exit 1, empty stdout, auth cycle in stderr."""
+        code, out, err = self._run_cli("toposort", str(DATA_DIR / "build-with-cycle.csv"))
+        self.assertEqual(code, 1)
+        self.assertEqual(out, "")
+        self.assertEqual(err, "Error: cycle detected: auth -> session -> user-profile -> auth\n")
+
+    def test_toposort_us2_as2_build_with_self_loop_after_fixing_first_cycle(self) -> None:
+        """T015 (US2-AS2): After fixing auth cycle in build-with-cycle.csv, reports metrics -> metrics."""
+        lines = (DATA_DIR / "build-with-cycle.csv").read_text(encoding="utf-8").splitlines()
+        filtered_lines = [line for line in lines if line.strip() != "user-profile,auth"]
+        csv_path = self._write_temp_csv("\n".join(filtered_lines) + "\n")
+        code, out, err = self._run_cli("toposort", str(csv_path))
+        self.assertEqual(code, 1)
+        self.assertEqual(out, "")
+        self.assertEqual(err, "Error: cycle detected: metrics -> metrics\n")
+
+    def test_toposort_us3_as1_invalid_files_and_load_error_priority_over_cycle(self) -> None:
+        """T018 (US3-AS1): Invalid CSV files fail with load error on toposort, even when a cycle precedes bad row."""
+        # Nonexistent file
+        code, out, err = self._run_cli("toposort", "data/nonexistent.csv")
+        self.assertEqual(code, 1)
+        self.assertEqual(out, "")
+        self.assertIn("nonexistent.csv", err)
+
+        # Empty 0-byte file
+        empty_path = self._write_temp_csv("")
+        code, out, err = self._run_cli("toposort", str(empty_path))
+        self.assertEqual(code, 1)
+        self.assertEqual(out, "")
+        self.assertIn(empty_path.name, err)
+
+        # Invalid header
+        bad_header_path = self._write_temp_csv("from,to\na,b\n")
+        code, out, err = self._run_cli("toposort", str(bad_header_path))
+        self.assertEqual(code, 1)
+        self.assertEqual(out, "")
+        self.assertIn("1", err)
+        self.assertIn("from,to", err)
+
+        # File with BOTH a cycle in rows 2-3 AND an invalid row at line 4 (P-01 priority check)
+        for bad_row in ("watch", "a,b,c", "", ",shoes", ",", "   ,shoes"):
+            with self.subTest(bad_row=bad_row):
+                csv_path = self._write_temp_csv(f"source,target\nauth,session\nsession,auth\n{bad_row}\n")
+                code, out, err = self._run_cli("toposort", str(csv_path))
+                self.assertEqual(code, 1)
+                self.assertEqual(out, "")
+                self.assertNotIn("cycle detected", err)
+                self.assertIn("4", err)
+
+    def test_toposort_us3_as2_trim_internal_spaces_and_case_sensitive_ascii_order(self) -> None:
+        """T019 (US3-AS2): Trims outer spaces, preserves internal spaces, and orders 'Zeta' before 'alpha'."""
+        csv_path = self._write_temp_csv(
+            "source,target\n"
+            " alpha , Data Science \n"
+            " Zeta , Data Science \n"
+        )
+        code, out, err = self._run_cli("toposort", str(csv_path))
+        self.assertEqual(code, 0)
+        self.assertEqual(err, "")
+        expected = "\n".join(
+            [
+                "Topological order (3):",
+                "Zeta",
+                "alpha",
+                "Data Science",
+            ]
+        ) + "\n"
+        self.assertEqual(out, expected)
+
 
 if __name__ == "__main__":
     unittest.main()

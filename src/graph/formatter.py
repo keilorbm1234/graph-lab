@@ -19,3 +19,9 @@ def format_graph(graph: DirectedGraph) -> str:
         *edge_lines,
     ]
     return "\n".join(lines)
+
+
+def format_topological_order(order: list[str]) -> str:
+    """Format a topological order list with the 'Topological order (<V>):' header."""
+    lines = [f"Topological order ({len(order)}):", *order]
+    return "\n".join(lines)
